@@ -1,23 +1,23 @@
 ---
-// src/pages/blog/[id].astro
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, render } from 'astro:content';
-
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map((post) => ({
-    params: { id: post.id },
-    props: { post },
-  }));
+  return (await getCollection('blog')).map(post => ({ params: { id: post.id }, props: { post } }));
 }
-
 const { post } = Astro.props;
 const { Content } = await render(post);
+const date = new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }).format(post.data.pubDate);
 ---
-<BaseLayout title={`${post.data.title} — Insight Brewer`} description={post.data.description}>
-  <article>
-    <h1>{post.data.title}</h1>
-    <p><time datetime={post.data.pubDate.toISOString()}>{post.data.pubDate.toLocaleDateString('ko-KR')}</time></p>
-    <Content />
+<BaseLayout title={`${post.data.title} — Insight Brewer`} description={post.data.description} type="article">
+  <article class="reading">
+    <header class="reading-header">
+      <a class="text-link" href="/blog"><span aria-hidden="true">←</span> 글 목록으로</a>
+      <p class="eyebrow">JOURNAL · {post.data.tags?.join(' · ')}</p>
+      <h1>{post.data.title}</h1>
+      <p class="lead">{post.data.description}</p>
+      <div class="post-meta"><span>Insight Brewer</span><time datetime={post.data.pubDate.toISOString()}>{date}</time></div>
+    </header>
+    <div class="prose"><Content /></div>
+    <footer class="reading-footer"><div><p>글에서 이어지는 질문이 있나요?</p><a class="text-link" href="/contact">생각 나누기 <span aria-hidden="true">↗</span></a></div><a class="text-link" href="/blog">모든 글 보기 <span aria-hidden="true">↗</span></a></footer>
   </article>
 </BaseLayout>

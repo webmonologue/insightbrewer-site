@@ -10,7 +10,10 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "vitest run"
+    "check": "astro check",
+    "pretest": "npm run build",
+    "test": "vitest run",
+    "verify": "npm run check && npm test"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^13.7.0",

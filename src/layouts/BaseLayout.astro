@@ -1,46 +1,60 @@
 ---
-// src/layouts/BaseLayout.astro
 import '../styles/global.css';
 
 interface Props {
   title: string;
   description: string;
+  type?: 'website' | 'article';
 }
-
-const { title, description } = Astro.props;
+const { title, description, type = 'website' } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const links = [
+  { href: '/', label: '홈' },
+  { href: '/about', label: '소개' },
+  { href: '/blog', label: '글' },
+  { href: '/service', label: '협업' },
+  { href: '/contact', label: '문의' },
+];
 ---
 <!doctype html>
 <html lang="ko">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f2ea" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href="/fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="canonical" href={canonicalURL} />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={type} />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:site_name" content="Insight Brewer" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
   </head>
   <body>
-    <header>
-      <nav>
-        <a href="/">홈</a>
-        <a href="/about">소개</a>
-        <a href="/blog">블로그</a>
-        <a href="/service">서비스</a>
-        <a href="/contact">문의</a>
+    <a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+    <header class="site-header shell">
+      <div class="masthead">
+        <a class="wordmark" href="/" aria-label="Insight Brewer 홈">Insight Brewer<span aria-hidden="true">.</span></a>
+        <p class="masthead-note">AI, ADTECH & BUSINESS<br />관찰과 실행 사이의 기록</p>
+      </div>
+      <nav class="site-nav" aria-label="주 메뉴">
+        <div class="nav-links">
+          {links.map(({ href, label }) => (
+            <a href={href} aria-current={path === href || (href === '/blog' && path.startsWith('/blog/')) ? 'page' : undefined}>{label}</a>
+          ))}
+        </div>
+        <span class="nav-note" aria-hidden="true">A PERSONAL JOURNAL</span>
       </nav>
     </header>
-    <main>
-      <slot />
-    </main>
-    <footer>
-      <p style="max-width: 720px; margin: 0 auto; padding: var(--space-4); color: var(--color-fg-muted); font-size: 0.875rem;">
-        © {new Date().getFullYear()} Insight Brewer
-      </p>
+    <main id="main-content" class="shell" tabindex="-1"><slot /></main>
+    <footer class="site-footer shell">
+      <div><a class="footer-brand" href="/">Insight Brewer.</a><p>기술을 읽고, 사업을 생각하고, 글로 남깁니다.</p></div>
+      <div class="footer-end"><a href="/contact">대화 시작하기 <span aria-hidden="true">↗</span></a><small>© {new Date().getFullYear()} Insight Brewer</small></div>
     </footer>
   </body>
 </html>

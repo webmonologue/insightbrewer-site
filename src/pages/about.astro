@@ -1,51 +1,10 @@
 ---
-// src/pages/about.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
-
-const beliefs = [
-  { title: '정보보다 맥락', body: '숫자 뒤의 맥락과 현상 뒤의 사람을 함께 봅니다.' },
-  { title: '속도보다 밀도', body: '유행을 쫓기보다 흐름의 방향을 읽고, 오래 작동할 구조를 찾습니다.' },
-  { title: '발견보다 조합', body: '흩어진 데이터와 경험, 관점 사이의 관계를 찾아 전략적인 그림으로 엮습니다.' },
-  { title: '전략은 사람을 향해야 한다', body: '기술과 데이터는 사람을 더 잘 이해하고 더 나은 선택을 돕기 위한 도구입니다.' },
-];
-
-const comparisons = [
-  { topic: '데이터', general: '수치를 보고 결과를 설명한다', insightbrewer: '수치 뒤의 맥락과 다음 가능성을 읽는다' },
-  { topic: '트렌드', general: '유행을 빠르게 따라간다', insightbrewer: '흐름의 원인과 지속 가능성을 해석한다' },
-  { topic: '전략', general: '정답을 제시하는 문서에 집중한다', insightbrewer: '실행과 관계까지 이어지는 방향을 설계한다' },
-  { topic: '네트워크', general: '많은 연결을 만든다', insightbrewer: '결이 맞는 관계를 오래 유지한다' },
-  { topic: 'AI', general: '자동화와 효율의 도구로 본다', insightbrewer: '사람과 시장을 더 깊이 이해하는 증폭기로 활용한다' },
-];
 ---
-<BaseLayout
-  title="소개 — Insight Brewer"
-  description="인사이트브루어는 AI 기반 애드테크와 사업개발의 현장에서 데이터와 현상, 사람의 욕구가 만나는 지점을 탐색합니다."
->
-  <h1>소개</h1>
-  <p>
-    인사이트브루어는 AI 기반 애드테크와 사업개발의 현장에서 데이터와 현상, 사람의
-    욕구가 만나는 지점을 탐색합니다. 빠른 답보다 깊은 질문을, 많은 연결보다
-    오래가는 관계를 믿습니다. 작은 신호를 충분히 숙성해 브랜드와 사업의 다음
-    선택을 바꾸는 통찰을 만듭니다.
-  </p>
-
-  <h2>인사이트브루어가 믿는 것</h2>
-  {beliefs.map((b) => (
-    <div>
-      <h3>{b.title}</h3>
-      <p>{b.body}</p>
-    </div>
-  ))}
-
-  <h2>다른 전문가와의 차이</h2>
-  <table>
-    <thead>
-      <tr><th>구분</th><th>일반적 접근</th><th>인사이트브루어의 접근</th></tr>
-    </thead>
-    <tbody>
-      {comparisons.map((c) => (
-        <tr><td>{c.topic}</td><td>{c.general}</td><td>{c.insightbrewer}</td></tr>
-      ))}
-    </tbody>
-  </table>
+<BaseLayout title="소개 — Insight Brewer" description="AI, 애드테크, 사업개발을 연결해 생각하는 인사이트브루어. 기술과 데이터 너머의 맥락을 살피고, 관찰과 질문을 기록합니다.">
+  <header class="page-intro"><p class="eyebrow">ABOUT · 인사이트브루어</p><h1>기술을 이해하는 일에서,<br />사업의 다음 질문으로.</h1><p class="lead">AI 기반 애드테크와 사업개발의 현장에서 데이터와 현상, 사람의 욕구가 만나는 지점을 탐색합니다.</p></header>
+  <section class="section-grid"><div class="section-label"><p class="eyebrow">PERSPECTIVE</p><h2>어떤 시선으로<br />일을 보는가</h2></div><div class="essay"><p>새로운 기술이 등장하면, 무엇을 할 수 있는지와 함께 누구의 어떤 문제를 풀 수 있는지 묻습니다. 도구의 기능만으로는 그 도구를 써야 할 이유까지 설명할 수 없기 때문입니다.</p><p>광고와 데이터에서도 관심은 숫자 자체에 머무르지 않습니다. 소비자와 미디어, 기술 환경을 함께 놓고 보아야 결과를 해석하고 다음 선택을 생각할 수 있다고 믿습니다.</p><p>사업개발은 그 사이의 연결을 찾는 일로 바라봅니다. 기술과 시장, 제품과 사람의 접점을 살피고, 서로에게 의미 있는 관계를 오래 이어갈 방법을 고민합니다.</p></div></section>
+  <section class="section-grid"><div class="section-label"><p class="eyebrow">WORKING PRINCIPLES</p><h2>질문을 다루는 방식</h2></div><div class="principles"><div><h3>숫자와 맥락을 함께 보기</h3><p>정량 데이터가 보여주는 결과에 정성적 관찰을 더합니다. 무엇이 달라졌는지뿐 아니라 왜 달라졌는지를 묻습니다.</p></div><div><h3>가능성과 실행을 구분하기</h3><p>흥미로운 아이디어가 곧 실행할 일은 아닙니다. 필요한 조건과 제약을 먼저 정리하고, 지금 확인할 수 있는 것부터 살핍니다.</p></div><div><h3>정답보다 대화를 남기기</h3><p>빠른 답보다 깊은 질문을, 많은 연결보다 오래가는 관계를 중요하게 생각합니다. 다른 관점을 만날 여지를 남겨두려 합니다.</p></div></div></section>
+  <section class="section-grid"><div class="section-label"><p class="eyebrow">WHY I WRITE</p><h2>기록하는 이유</h2></div><div class="essay"><p>정보는 넘치지만 이해는 저절로 따라오지 않습니다. 이곳은 광고 자동화와 데이터, 시장의 신호를 관찰하면서 발견한 것들을 맥락과 함께 정리하는 공간입니다.</p><p>완성된 답을 모으기보다 생각이 만들어지는 과정을 남기려 합니다. 글을 통해 비슷한 질문을 가진 사람과 대화할 수 있기를 바랍니다.</p><a class="text-link" href="/blog/hello-world/">첫 글, 신호를 숙성한다는 것 <span aria-hidden="true">↗</span></a></div></section>
+  <div class="contact-strip"><p>비슷한 질문을 가지고 있다면 이야기 나누고 싶습니다.</p><a class="text-link" href="/contact">대화 시작하기 <span aria-hidden="true">↗</span></a></div>
 </BaseLayout>
