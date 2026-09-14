@@ -1,9 +1,10 @@
 export const prerender = false;
 
 import type { APIRoute } from 'astro';
+import { env } from 'cloudflare:workers';
 import { validateContact } from '../../lib/validateContact';
 
-export const POST: APIRoute = async ({ request, locals }) => {
+export const POST: APIRoute = async ({ request }) => {
   const formData = await request.formData();
   const result = validateContact({
     name: formData.get('name'),
@@ -18,8 +19,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     });
   }
 
-  const apiKey = (locals as { runtime?: { env?: { RESEND_API_KEY?: string } } })
-    .runtime?.env?.RESEND_API_KEY;
+  const apiKey = (env as { RESEND_API_KEY?: string }).RESEND_API_KEY;
 
   if (!apiKey) {
     console.error('RESEND_API_KEY is not configured');
