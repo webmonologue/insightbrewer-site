@@ -22,27 +22,35 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       <label for="message">문의 내용</label><br />
       <textarea id="message" name="message" rows="6" required></textarea>
     </div>
-    <button type="submit" style="margin-top: var(--space-4);">보내기</button>
+    <button id="contact-form-submit" type="submit" style="margin-top: var(--space-4);">보내기</button>
     <p id="contact-form-status" role="status" aria-live="polite"></p>
   </form>
 
   <script>
     const form = document.getElementById('contact-form') as HTMLFormElement;
     const status = document.getElementById('contact-form-status') as HTMLParagraphElement;
+    const submitButton = document.getElementById('contact-form-submit') as HTMLButtonElement;
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
       status.textContent = '전송 중...';
+      submitButton.disabled = true;
 
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        body: new FormData(form),
-      });
-      const body = (await response.json()) as { message: string };
-      status.textContent = body.message;
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          body: new FormData(form),
+        });
+        const body = (await response.json()) as { message: string };
+        status.textContent = body.message;
 
-      if (response.ok) {
-        form.reset();
+        if (response.ok) {
+          form.reset();
+        }
+      } catch (error) {
+        status.textContent = '네트워크 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.';
+      } finally {
+        submitButton.disabled = false;
       }
     });
   </script>
