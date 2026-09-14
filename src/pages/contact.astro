@@ -38,7 +38,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         method: 'POST',
         body: new FormData(form),
       });
-      const body = await response.json();
+      const body = (await response.json()) as { message: string };
       status.textContent = body.message;
 
       if (response.ok) {
