@@ -1,0 +1,51 @@
+---
+// src/pages/about.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const beliefs = [
+  { title: '정보보다 맥락', body: '숫자 뒤의 맥락과 현상 뒤의 사람을 함께 봅니다.' },
+  { title: '속도보다 밀도', body: '유행을 쫓기보다 흐름의 방향을 읽고, 오래 작동할 구조를 찾습니다.' },
+  { title: '발견보다 조합', body: '흩어진 데이터와 경험, 관점 사이의 관계를 찾아 전략적인 그림으로 엮습니다.' },
+  { title: '전략은 사람을 향해야 한다', body: '기술과 데이터는 사람을 더 잘 이해하고 더 나은 선택을 돕기 위한 도구입니다.' },
+];
+
+const comparisons = [
+  { topic: '데이터', general: '수치를 보고 결과를 설명한다', insightbrewer: '수치 뒤의 맥락과 다음 가능성을 읽는다' },
+  { topic: '트렌드', general: '유행을 빠르게 따라간다', insightbrewer: '흐름의 원인과 지속 가능성을 해석한다' },
+  { topic: '전략', general: '정답을 제시하는 문서에 집중한다', insightbrewer: '실행과 관계까지 이어지는 방향을 설계한다' },
+  { topic: '네트워크', general: '많은 연결을 만든다', insightbrewer: '결이 맞는 관계를 오래 유지한다' },
+  { topic: 'AI', general: '자동화와 효율의 도구로 본다', insightbrewer: '사람과 시장을 더 깊이 이해하는 증폭기로 활용한다' },
+];
+---
+<BaseLayout
+  title="소개 — Insight Brewer"
+  description="인사이트브루어는 AI 기반 애드테크와 사업개발의 현장에서 데이터와 현상, 사람의 욕구가 만나는 지점을 탐색합니다."
+>
+  <h1>소개</h1>
+  <p>
+    인사이트브루어는 AI 기반 애드테크와 사업개발의 현장에서 데이터와 현상, 사람의
+    욕구가 만나는 지점을 탐색합니다. 빠른 답보다 깊은 질문을, 많은 연결보다
+    오래가는 관계를 믿습니다. 작은 신호를 충분히 숙성해 브랜드와 사업의 다음
+    선택을 바꾸는 통찰을 만듭니다.
+  </p>
+
+  <h2>인사이트브루어가 믿는 것</h2>
+  {beliefs.map((b) => (
+    <div>
+      <h3>{b.title}</h3>
+      <p>{b.body}</p>
+    </div>
+  ))}
+
+  <h2>다른 전문가와의 차이</h2>
+  <table>
+    <thead>
+      <tr><th>구분</th><th>일반적 접근</th><th>인사이트브루어의 접근</th></tr>
+    </thead>
+    <tbody>
+      {comparisons.map((c) => (
+        <tr><td>{c.topic}</td><td>{c.general}</td><td>{c.insightbrewer}</td></tr>
+      ))}
+    </tbody>
+  </table>
+</BaseLayout>
