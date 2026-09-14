@@ -4,4 +4,9 @@
   "assets": {
     "directory": "./dist"
   }
+  // RESEND_API_KEY is required at runtime for /api/contact and must be set
+  // as a secret, not committed here:
+  //   npx wrangler secret put RESEND_API_KEY
+  // For local dev, put it in a git-ignored `.dev.vars` file:
+  //   RESEND_API_KEY=re_xxx
 }
