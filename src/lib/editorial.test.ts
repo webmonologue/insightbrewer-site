@@ -24,14 +24,14 @@ describe('editorial site — rendered HTML', () => {
     const html = page();
     expect(html).toContain('AI와 애드테크 현장에서');
     expect(html).toContain('사업을 만들고,');
-    const headings = ['관심을 두는 일', '신호를 숙성한다는 것', '함께 풀어볼 질문', '대화를 이어가고 싶다면'];
+    const headings = ['관심을 두는 일', '신호보다 맥락을 봅니다', '함께 풀어볼 질문', '대화를 이어가고 싶다면'];
     let previous = -1;
     for (const heading of headings) {
       const index = html.indexOf(heading);
       expect(index).toBeGreaterThan(previous);
       previous = index;
     }
-    expect(html).toContain('정보는 넘치지만 이해는 저절로 따라오지 않습니다.');
+    expect(html).toContain('정보가 많다고 저절로 이해되는 건 아닙니다.');
     expect(html.match(/href="\/blog\/hello-world\/"/g)).toHaveLength(2);
     expect(page('about')).not.toContain('일반적 접근');
     expect(page('about')).toContain('기록하는 이유');
