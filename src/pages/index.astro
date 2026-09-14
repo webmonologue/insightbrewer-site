@@ -1,12 +1,49 @@
 ---
 // src/pages/index.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const recentPosts = (await getCollection('blog'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
 ---
 <BaseLayout
   title="Insight Brewer"
-  description="Insight Brewer — 생각을 정리하고 나누는 공간입니다."
+  description="신호를 숙성해, 실행 가능한 통찰을 빚는 사람."
 >
-  <h1>Insight Brewer</h1>
-  <p>안녕하세요. 이곳은 생각을 정리하고 나누는 공간입니다.</p>
-  <p><a href="/blog">블로그 보러가기 →</a></p>
+  <section>
+    <h1>신호를 숙성해, 실행 가능한 통찰을 빚는 사람.</h1>
+    <p>
+      AI와 데이터, 시장과 사람 사이의 신호를 읽습니다.
+      흩어진 정보를 맥락으로 엮고, 실행 가능한 전략으로 만들어 냅니다.
+    </p>
+  </section>
+
+  <section>
+    <h2>하는 일</h2>
+    <p>
+      광고 자동화를 도입하려는 마케터에게, 툴 세팅부터 운영 기준까지 같이 짜주는
+      컨설팅 파트너입니다. 반복은 시스템에 맡기고, 판단이 필요한 일에 시간을 쓸 수
+      있도록 돕습니다.
+    </p>
+    <p><a href="/service">서비스 자세히 보기 →</a></p>
+  </section>
+
+  {recentPosts.length > 0 && (
+    <section>
+      <h2>최근 글</h2>
+      <ul>
+        {recentPosts.map((post) => (
+          <li>
+            <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+          </li>
+        ))}
+      </ul>
+      <p><a href="/blog">블로그 전체 보기 →</a></p>
+    </section>
+  )}
+
+  <section>
+    <p><a href="/contact">문의하기 →</a></p>
+  </section>
 </BaseLayout>
