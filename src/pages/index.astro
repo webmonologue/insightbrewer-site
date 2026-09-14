@@ -1,49 +1,38 @@
 ---
-// src/pages/index.astro
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PostPreview from '../components/PostPreview.astro';
 import { getCollection } from 'astro:content';
-
-const recentPosts = (await getCollection('blog'))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
+const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const featured = posts.find(post => post.id === 'hello-world') || posts[0];
 ---
-<BaseLayout
-  title="Insight Brewer"
-  description="신호를 숙성해, 실행 가능한 통찰을 빚는 사람."
->
-  <section>
-    <h1>신호를 숙성해, 실행 가능한 통찰을 빚는 사람.</h1>
-    <p>
-      AI와 데이터, 시장과 사람 사이의 신호를 읽습니다.
-      흩어진 정보를 맥락으로 엮고, 실행 가능한 전략으로 만들어 냅니다.
-    </p>
+<BaseLayout title="Insight Brewer — AI, 애드테크와 사업을 생각하는 기록" description="AI와 애드테크 현장에서 사업을 만들고, 그 과정에서 배운 것을 씁니다. 기술과 시장, 사람을 연결하는 인사이트브루어의 개인 저널.">
+  <section class="hero" aria-labelledby="intro-title">
+    <div>
+      <p class="eyebrow">INSIGHT BREWER · 인사이트브루어</p>
+      <h1 id="intro-title">AI와 애드테크 현장에서<br />사업을 만들고,<br />그 과정에서 배운 것을 씁니다.</h1>
+      <p class="hero-deck">기술이 바꾸는 일의 방식, 데이터 너머의 시장, 사람과 사업을 잇는 기회. 관찰하고 실행하며 떠오른 질문을 이곳에 차분히 정리합니다.</p>
+    </div>
+    <aside class="hero-aside" aria-label="이 공간에 대하여">
+      <p class="aside-title">Between signals<br />and decisions.</p>
+      <p>빠른 결론보다 좋은 질문을.<br />흩어진 정보보다 그 사이의 맥락을.</p>
+      <a class="text-link" href="/about">조금 더 알아보기 <span aria-hidden="true">↗</span></a>
+    </aside>
   </section>
-
-  <section>
-    <h2>하는 일</h2>
-    <p>
-      광고 자동화를 도입하려는 마케터에게, 툴 세팅부터 운영 기준까지 같이 짜주는
-      컨설팅 파트너입니다. 반복은 시스템에 맡기고, 판단이 필요한 일에 시간을 쓸 수
-      있도록 돕습니다.
-    </p>
-    <p><a href="/service">서비스 자세히 보기 →</a></p>
+  <section class="section-grid" aria-labelledby="interests-title">
+    <div class="section-label"><p class="eyebrow">AREAS OF INTEREST</p><h2 id="interests-title">관심을 두는 일</h2><p>기술, 시장, 사람을<br />서로 떨어뜨리지 않고 봅니다.</p></div>
+    <div>
+      <div class="interest-row"><h3>AI와 일의 방식</h3><p>자동화할 수 있는 일과 사람이 판단해야 할 일을 구분합니다. 새로운 도구가 실제 업무의 어떤 문제를 풀 수 있는지 살핍니다.</p></div>
+      <div class="interest-row"><h3>애드테크와 데이터</h3><p>광고와 미디어의 변화를 따라가며, 숫자 뒤의 소비자와 시장을 읽습니다. 성과를 해석하는 맥락과 운영 기준에 관심이 있습니다.</p></div>
+      <div class="interest-row"><h3>사업개발과 연결</h3><p>기술의 가능성이 사업의 기회가 되는 지점을 탐색합니다. 제품과 시장의 접점, 함께할 파트너, 다음에 검토할 질문을 생각합니다.</p></div>
+    </div>
   </section>
-
-  {recentPosts.length > 0 && (
-    <section>
-      <h2>최근 글</h2>
-      <ul>
-        {recentPosts.map((post) => (
-          <li>
-            <a href={`/blog/${post.id}/`}>{post.data.title}</a>
-          </li>
-        ))}
-      </ul>
-      <p><a href="/blog">블로그 전체 보기 →</a></p>
-    </section>
-  )}
-
-  <section>
-    <p><a href="/contact">문의하기 →</a></p>
+  {featured && <section class="writing-section" aria-labelledby="writing-title">
+    <div class="section-heading"><div><p class="eyebrow">FROM THE JOURNAL</p><h2 id="writing-title">이 글부터 읽어보세요</h2></div><a class="text-link" href="/blog">모든 글 보기 <span aria-hidden="true">↗</span></a></div>
+    <PostPreview post={featured} />
+  </section>}
+  <section class="collaboration" aria-labelledby="collaboration-title">
+    <div><p class="eyebrow">OPEN TO CONVERSATION</p><h2 id="collaboration-title">함께 풀어볼 질문이<br />있나요?</h2></div>
+    <div><p>AI를 업무에 적용하는 방법, 애드테크 시장의 변화, 새로운 사업과 파트너십의 방향. 정리되지 않은 고민부터 대화를 시작할 수 있습니다.</p><a class="text-link" href="/service">협업할 수 있는 주제 <span aria-hidden="true">↗</span></a></div>
   </section>
+  <section class="contact-strip" aria-label="연락하기"><p>대화를 이어가고 싶다면, 짧은 소개와 함께 연락해 주세요.</p><a class="text-link" href="/contact">문의 남기기 <span aria-hidden="true">↗</span></a></section>
 </BaseLayout>
