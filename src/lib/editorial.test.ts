@@ -36,10 +36,36 @@ describe('editorial site — rendered HTML', () => {
     expect(page('about')).not.toContain('일반적 접근');
     expect(page('about')).toContain('기록하는 이유');
     expect(page('service')).toContain('협업 — Insight Brewer');
-    expect(page('service')).toContain('범위와 방식은 대화를 통해 함께 정합니다.');
+    expect(page('service')).toContain('구체적인 범위와 진행 방식은 대화를 통해 함께 정합니다.');
     expect(page('blog')).toContain('datetime="2026-09-14');
     expect(page('blog/hello-world')).toContain('property="og:type" content="article"');
     expect(page('blog/hello-world')).toContain('class="prose"');
+  });
+  it('introduces collaboration in a labeled, ordered three-step section with a contact link', () => {
+    const section = page('service').match(/<section\b[^>]*aria-labelledby="process-heading"[^>]*>[\s\S]*?<\/section>/)?.[0];
+    expect(section).toBeDefined();
+    expect(section).toMatch(/<h2 id="process-heading">이렇게 시작합니다<\/h2>[\s\S]*<ol\b/);
+    const steps = [...section!.matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/g)].map((match) => match[1]);
+    expect(steps).toHaveLength(3);
+    const approved = [
+      ['01', '고민을 나눕니다', '현재 상황과 풀고 싶은 문제, 이미 시도해 본 방법을 알려주세요.'],
+      ['02', '함께할 범위를 정합니다', '서로의 기대를 확인하고, 논의할 주제와 필요한 자료를 정합니다.'],
+      ['03', '다음 할 일을 정리합니다', '더 확인할 내용과 실행 여부를 판단할 기준을 함께 정리합니다.'],
+    ];
+    approved.forEach(([number, title, description], index) => {
+      expect(steps[index]).toContain(`aria-hidden="true">${number}</span>`);
+      expect(steps[index]).toContain(`<h3>${title}</h3>`);
+      expect(steps[index]).toContain(`<p>${description}</p>`);
+    });
+    expect(section).toContain('구체적인 범위와 진행 방식은 대화를 통해 함께 정합니다.');
+    expect(section).toMatch(/<a\b[^>]*href="\/contact"[^>]*>협업 문의하기 <span aria-hidden="true">↗<\/span><\/a>/);
+  });
+  it('uses equal editorial process columns and stacks them at 760px', () => {
+    const css = readFileSync(new URL('../styles/global.css', import.meta.url), 'utf8');
+    expect(css).toMatch(/\.process-section \.process\s*\{[^}]*display:\s*grid;[^}]*grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\)/);
+    expect(css).toMatch(/\.process-section \.process > li\s*\{[^}]*border-top:\s*1px solid var\(--color-border\)/);
+    expect(css).toMatch(/@media\s*\(max-width: 760px\)\s*\{[\s\S]*?\.process-section \.process\s*\{[^}]*grid-template-columns:\s*1fr;/);
+    expect(css).not.toMatch(/\.process li::before/);
   });
   it('offers a consistent Korean, keyboard-accessible magazine shell on every route', () => {
     for (const route of routes) {
