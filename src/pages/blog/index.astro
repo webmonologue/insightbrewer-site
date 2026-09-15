@@ -1,8 +1,9 @@
 ---
+import { isPublished } from '../../lib/publication';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostPreview from '../../components/PostPreview.astro';
 import { getCollection } from 'astro:content';
-const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const posts = (await getCollection('blog', post => isPublished(post))).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 <BaseLayout title="글 — Insight Brewer" description="AI와 애드테크, 데이터와 사업의 접점에서 떠오른 질문을 기록합니다. 인사이트브루어의 글 모음.">
   <header class="page-intro"><p class="eyebrow">THE JOURNAL · 글 모음</p><h1>관찰은 짧게 지나가도,<br />생각은 남도록.</h1><p class="lead">AI와 애드테크, 데이터와 사업의 접점에서 떠오른 질문들.<br />빠른 결론보다 그 결론에 이르는 맥락을 씁니다.</p></header>

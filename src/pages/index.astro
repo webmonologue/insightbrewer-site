@@ -1,8 +1,9 @@
 ---
+import { isPublished } from '../lib/publication';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostPreview from '../components/PostPreview.astro';
 import { getCollection } from 'astro:content';
-const posts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const posts = (await getCollection('blog', post => isPublished(post))).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const featured = posts.find(post => post.id === 'hello-world') || posts[0];
 ---
 <BaseLayout title="Insight Brewer — AI, 애드테크와 사업을 생각하는 기록" description="AI와 애드테크 현장에서 사업을 만들고, 그 과정에서 배운 것을 씁니다. 기술과 시장, 사람을 연결하는 인사이트브루어의 개인 저널.">

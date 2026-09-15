@@ -1,3 +1,6 @@
+# Local publication ownership (contains relative private note IDs)
+.obsidian-export/
+
 # build output
 dist/
 .wrangler/

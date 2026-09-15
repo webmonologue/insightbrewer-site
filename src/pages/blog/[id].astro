@@ -1,8 +1,9 @@
 ---
+import { isPublished } from '../../lib/publication';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, render } from 'astro:content';
 export async function getStaticPaths() {
-  return (await getCollection('blog')).map(post => ({ params: { id: post.id }, props: { post } }));
+  return (await getCollection('blog', post => isPublished(post))).map(post => ({ params: { id: post.id }, props: { post } }));
 }
 const { post } = Astro.props;
 const { Content } = await render(post);
