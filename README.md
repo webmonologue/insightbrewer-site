@@ -2,6 +2,16 @@
 
 Astro 기반 개인 저널. `npm ci` 후 `npm run dev`로 로컬 미리보기, `npm run verify`로 타입 검사·빌드·테스트를 실행합니다.
 
+## 공개 URL 정책
+
+- 현재 공식 origin은 `https://insightbrewer.webmonologue.workers.dev`입니다. 구입 전인 `insightbrewer.com`을 canonical로 사용하지 않습니다.
+- 신규 글 URL은 `/blog/{slug}/`: 주제를 설명하는 짧은 한글과 소문자 영문 약어, 단어 구분은 하이픈. 날짜·카테고리는 기본적으로 넣지 않습니다.
+- 노트 파일명은 제목, 배포 파일명은 `{slug}.md`; 제목 수정만으로 발행된 URL을 변경하지 않습니다.
+- 주소 변경은 별도 승인된 이전 작업입니다. 기존 주소의 HTTP 301, 내부 링크·canonical·og:url·사이트맵 일치를 함께 검증합니다.
+- 첫 글은 임시 slug를 한 번 정리했습니다. 두 번째 글의 `/blog/dmp-행동-시퀀스-타기팅/` 주소는 유지합니다.
+- 도메인 구입 후 DNS/TLS 연결과 공개 접근을 먼저 확인한 뒤 `site`, robots, canonical, 사이트맵 및 기존 도메인 리디렉션을 함께 이전합니다.
+- 내보내기의 기존 slug 보호는 유지됩니다. 관리 중인 글의 slug를 바꾸기 위해 manifest를 지우지 않습니다.
+
 ## Obsidian → 승인된 글 내보내기
 
 **Obsidian은 편집 원본, `src/content/blog/`는 생성된 발행 사본입니다.** 전체 vault 동기화, 예약 실행, 자동 배포는 하지 않습니다. 지정한 노트 한 개만 읽고, 기본 실행은 파일을 만들지 않는 dry-run입니다.
@@ -10,7 +20,7 @@ Astro 기반 개인 저널. `npm ci` 후 `npm run dev`로 로컬 미리보기, `
 - 허용 범위: vault 안의 `02-Areas/Personal Branding/Content Production/`
 - 원본 파일명: 전체 한글 제목, 예: `생각을 정리하는 긴 한글 제목.md`
 - 고정 slug: `생각-기록` → `src/content/blog/생각-기록.md` → `/blog/생각-기록/`
-- 레거시 첫 글만 예외: `신호보다-맥락.md`는 의미 있는 파일명을 쓰되 `slug: hello-world`로 기존 `/blog/hello-world/` URL을 유지합니다. 리디렉션은 필요하지 않으며 새 내보내기는 계속 `slug.md` 규칙을 따릅니다.
+- 첫 글은 `/blog/신호보다-맥락/`을 사용합니다. 이전 `/blog/hello-world` 및 `/blog/hello-world/`는 서버에서 새 주소로 301 영구 리디렉션합니다.
 - 자세한 승인·안전 규칙: [내보내기 계약](docs/obsidian-export.md)
 
 ### 1. Obsidian에서 공개 범위와 메타데이터 확정
@@ -53,4 +63,4 @@ npm run export:obsidian -- --note "02-Areas/Personal Branding/Content Production
 npm run verify
 ```
 
-이 명령은 원본 노트를 수정하지 않으며 Git 커밋·push·배포도 하지 않습니다. 이후 수정도 Obsidian에서 하고, 재검토 → 새 해시 → `--write` 순서를 반복합니다. 기존 `hello-world` 글은 내보내기 관리 대상이 아니며 덮어쓸 수 없습니다.
+이 명령은 원본 노트를 수정하지 않으며 Git 커밋·push·배포도 하지 않습니다. 이후 수정도 Obsidian에서 하고, 재검토 → 새 해시 → `--write` 순서를 반복합니다. 기존 `신호보다-맥락` 글은 내보내기 관리 대상이 아니며 덮어쓸 수 없습니다.

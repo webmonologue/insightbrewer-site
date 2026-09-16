@@ -3,17 +3,17 @@ import { describe, expect, it } from 'vitest';
 
 // Run against the actual rendered output: npm run build && npm test.
 const page = (route = '') => readFileSync(new URL(`../../dist/client/${route}${route ? '/' : ''}index.html`, import.meta.url), 'utf8');
-const routes = ['', 'about', 'service', 'blog', 'blog/hello-world', 'contact'];
+const routes = ['', 'about', 'service', 'blog', 'blog/신호보다-맥락', 'contact'];
 
 describe('editorial site — rendered HTML', () => {
-  it('uses a semantic first-article filename while Astro glob retains the original public route', () => {
+  it('uses a semantic first-article filename with its descriptive public route', () => {
     const source = new URL('../content/blog/신호보다-맥락.md', import.meta.url);
     expect(existsSync(source)).toBe(true);
     expect(existsSync(new URL('../content/blog/hello-world.md', import.meta.url))).toBe(false);
-    expect(readFileSync(source, 'utf8')).toContain('\nslug: hello-world\n');
-    expect(page('blog/hello-world')).toContain('정보가 많다고 저절로 이해되는 건 아닙니다.');
-    expect(page('blog/hello-world')).toContain('href="https://insightbrewer.com/blog/hello-world/"');
-    expect(existsSync(new URL('../../dist/client/blog/신호보다-맥락/index.html', import.meta.url))).toBe(false);
+    expect(readFileSync(source, 'utf8')).toContain('\nslug: 신호보다-맥락\n');
+    expect(page('blog/신호보다-맥락')).toContain('정보가 많다고 저절로 이해되는 건 아닙니다.');
+    expect(page('blog/신호보다-맥락')).toContain('href="https://insightbrewer.webmonologue.workers.dev/blog/%EC%8B%A0%ED%98%B8%EB%B3%B4%EB%8B%A4-%EB%A7%A5%EB%9D%BD/"');
+    expect(existsSync(new URL('../../dist/client/blog/hello-world/index.html', import.meta.url))).toBe(false);
   });
   it('keeps the contact contract and provides labeled autofill fields, guidance, and live feedback', () => {
     const html = page('contact');
@@ -43,7 +43,7 @@ describe('editorial site — rendered HTML', () => {
     expect(html).toContain('신차 기사를 자주 읽는 사람과 이번 주에 자동차 견적을 비교한 사람.');
     expect(html.match(/class="featured-post"/g)).toHaveLength(1);
     expect(html.match(/class="compact-post"/g)).toHaveLength(1);
-    expect(html.match(/href="\/blog\/hello-world\/"/g)).toHaveLength(1);
+    expect(html.match(/href="\/blog\/신호보다-맥락\/"/g)).toHaveLength(1);
     expect(html).toContain('인사이트브루어가 이 블로그를 시작하는 이유.');
     expect(html).toContain('모든 글 보기');
     expect(page('about')).not.toContain('일반적 접근');
@@ -51,8 +51,8 @@ describe('editorial site — rendered HTML', () => {
     expect(page('service')).toContain('협업 — Insight Brewer');
     expect(page('service')).toContain('구체적인 범위와 진행 방식은 대화를 통해 함께 정합니다.');
     expect(page('blog')).toContain('datetime="2026-09-14');
-    expect(page('blog/hello-world')).toContain('property="og:type" content="article"');
-    expect(page('blog/hello-world')).toContain('class="prose"');
+    expect(page('blog/신호보다-맥락')).toContain('property="og:type" content="article"');
+    expect(page('blog/신호보다-맥락')).toContain('class="prose"');
   });
   it('introduces collaboration in a labeled, ordered three-step section with a contact link', () => {
     const section = page('service').match(/<section\b[^>]*aria-labelledby="process-heading"[^>]*>[\s\S]*?<\/section>/)?.[0];

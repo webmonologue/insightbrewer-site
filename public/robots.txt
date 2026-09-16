@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://insightbrewer.com/sitemap-index.xml
+Sitemap: https://insightbrewer.webmonologue.workers.dev/sitemap-index.xml

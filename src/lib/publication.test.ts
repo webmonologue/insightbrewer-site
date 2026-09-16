@@ -29,7 +29,7 @@ it('orders equal publication dates by ID regardless of input order or update dat
   expect(comparePublicationDate(a, a)).toBe(0);
 });
 
-it('actual home, archive and static article build never expose drafts/future fixtures; hello-world remains', () => {
+it('actual home, archive and static article build never expose drafts/future fixtures; descriptive first article remains', () => {
   const repo = fileURLToPath(new URL('../../', import.meta.url));
   const root = mkdtempSync(join(tmpdir(), 'publication-build-'));
   try {
@@ -37,7 +37,8 @@ it('actual home, archive and static article build never expose drafts/future fix
     for (const name of ['components', 'layouts', 'styles', 'lib', 'content']) cpSync(join(repo, 'src', name), join(root, 'src', name), { recursive: true });
     cpSync(join(repo, 'src/content.config.ts'), join(root, 'src/content.config.ts'));
     cpSync(join(repo, 'src/pages/index.astro'), join(root, 'src/pages/index.astro'));
-    cpSync(join(repo, 'src/pages/blog'), join(root, 'src/pages/blog'), { recursive: true });
+    // Static publication fixtures exclude the separately tested server-only legacy redirect.
+    cpSync(join(repo, 'src/pages/blog'), join(root, 'src/pages/blog'), { recursive: true, filter: (source) => !source.endsWith('hello-world.ts') });
     writeFileSync(join(root, 'package.json'), '{"type":"module"}');
     writeFileSync(join(root, 'astro.config.mjs'), 'export default { site: "https://example.com" };');
     symlinkSync(join(repo, 'node_modules'), join(root, 'node_modules'));
@@ -59,14 +60,14 @@ it('actual home, archive and static article build never expose drafts/future fix
       const html = readFileSync(join(root, 'dist', path), 'utf8');
       expect(html).not.toContain('hidden-draft'); expect(html).not.toContain('hidden-future');
     }
-    expect(readFileSync(join(root, 'dist/blog/index.html'), 'utf8')).toContain('/blog/hello-world/');
-    expect(existsSync(join(root, 'dist/blog/신호보다-맥락/index.html'))).toBe(false);
+    expect(readFileSync(join(root, 'dist/blog/index.html'), 'utf8')).toContain('/blog/신호보다-맥락/');
+    expect(existsSync(join(root, 'dist/blog/hello-world/index.html'))).toBe(false);
     const published = readFileSync(join(root, 'dist/blog/AI-생각/index.html'), 'utf8');
     expect(published).toContain('PUBLIC-EXPORTED-BODY');
     expect(published).not.toContain('PRIVATE-OUTSIDE');
     expect(published).not.toContain('PRIVATE-AFTER');
     expect(published).not.toContain(vault);
-    expect(existsSync(join(root, 'dist/blog/hello-world/index.html'))).toBe(true);
+    expect(existsSync(join(root, 'dist/blog/신호보다-맥락/index.html'))).toBe(true);
     expect(existsSync(join(root, 'dist/blog/hidden-draft/index.html'))).toBe(false);
     expect(existsSync(join(root, 'dist/blog/hidden-future/index.html'))).toBe(false);
   } finally { rmSync(root, { recursive: true, force: true }); }

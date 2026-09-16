@@ -6,7 +6,7 @@ import cloudflare from '@astrojs/cloudflare';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://insightbrewer.com',
+  site: 'https://insightbrewer.webmonologue.workers.dev',
   integrations: [sitemap()],
   adapter: cloudflare(),
 });

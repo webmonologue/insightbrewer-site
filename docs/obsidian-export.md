@@ -1,5 +1,7 @@
 # Obsidian 승인 내보내기 계약
 
+공개 URL의 편집 정책과 도메인 이전 원칙은 [README](../README.md#공개-url-정책)를 따릅니다. 내보내기는 기존 관리 글의 slug 변경을 자동 수행하지 않습니다.
+
 ## 입력과 승인
 
 - CLI: `npm run export:obsidian -- --note "vault 기준 상대 경로.md" [--write]`. `--note`는 필수이며 허용 폴더 안의 파일 한 개만 선택합니다. glob·일괄 동기화는 없습니다.
