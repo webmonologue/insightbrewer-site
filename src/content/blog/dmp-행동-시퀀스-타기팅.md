@@ -133,5 +133,5 @@ Adobe Experience Platform의 세그먼트 구성 기능은 속성과 이벤트�
 
 ## Sources
 
-[1] https://experienceleague.adobe.com/en/docs/audience-manager/user-guide/features/segments/recency-and-frequency
-[2] https://experienceleague.adobe.com/en/docs/experience-platform/segmentation/ui/segment-builder
+- [1] [Adobe Audience Manager — Recency and Frequency](https://experienceleague.adobe.com/en/docs/audience-manager/user-guide/features/segments/recency-and-frequency)
+- [2] [Adobe Experience Platform — Segment Builder](https://experienceleague.adobe.com/en/docs/experience-platform/segmentation/ui/segment-builder)
