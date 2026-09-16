@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 // Run against the actual rendered output: npm run build && npm test.
@@ -6,6 +6,15 @@ const page = (route = '') => readFileSync(new URL(`../../dist/client/${route}${r
 const routes = ['', 'about', 'service', 'blog', 'blog/hello-world', 'contact'];
 
 describe('editorial site — rendered HTML', () => {
+  it('uses a semantic first-article filename while Astro glob retains the original public route', () => {
+    const source = new URL('../content/blog/신호보다-맥락.md', import.meta.url);
+    expect(existsSync(source)).toBe(true);
+    expect(existsSync(new URL('../content/blog/hello-world.md', import.meta.url))).toBe(false);
+    expect(readFileSync(source, 'utf8')).toContain('\nslug: hello-world\n');
+    expect(page('blog/hello-world')).toContain('정보가 많다고 저절로 이해되는 건 아닙니다.');
+    expect(page('blog/hello-world')).toContain('href="https://insightbrewer.com/blog/hello-world/"');
+    expect(existsSync(new URL('../../dist/client/blog/신호보다-맥락/index.html', import.meta.url))).toBe(false);
+  });
   it('keeps the contact contract and provides labeled autofill fields, guidance, and live feedback', () => {
     const html = page('contact');
     for (const field of ['name', 'email', 'message']) {
@@ -24,15 +33,19 @@ describe('editorial site — rendered HTML', () => {
     const html = page();
     expect(html).toContain('AI와 애드테크 현장에서');
     expect(html).toContain('사업을 만들고,');
-    const headings = ['관심을 두는 일', '신호보다 맥락을 봅니다', '함께 풀어볼 질문', '대화를 이어가고 싶다면'];
+    const headings = ['관심을 두는 일', '최근에 쓴 글', 'DMP 타겟팅에서 속성만큼 행동의 순서가 중요한 이유', '신호보다 맥락을 봅니다', '함께 풀어볼 질문', '대화를 이어가고 싶다면'];
     let previous = -1;
     for (const heading of headings) {
       const index = html.indexOf(heading);
       expect(index).toBeGreaterThan(previous);
       previous = index;
     }
-    expect(html).toContain('정보가 많다고 저절로 이해되는 건 아닙니다.');
-    expect(html.match(/href="\/blog\/hello-world\/"/g)).toHaveLength(2);
+    expect(html).toContain('신차 기사를 자주 읽는 사람과 이번 주에 자동차 견적을 비교한 사람.');
+    expect(html.match(/class="featured-post"/g)).toHaveLength(1);
+    expect(html.match(/class="compact-post"/g)).toHaveLength(1);
+    expect(html.match(/href="\/blog\/hello-world\/"/g)).toHaveLength(1);
+    expect(html).toContain('인사이트브루어가 이 블로그를 시작하는 이유.');
+    expect(html).toContain('모든 글 보기');
     expect(page('about')).not.toContain('일반적 접근');
     expect(page('about')).toContain('기록하는 이유');
     expect(page('service')).toContain('협업 — Insight Brewer');

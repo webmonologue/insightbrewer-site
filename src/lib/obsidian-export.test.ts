@@ -29,8 +29,8 @@ function approve(text: string) { return text.replace('\n---\n', `\napprovalHash:
 
 it('writes only the approved public block, recording ownership without leaking private fields', () => {
   const f = fixture(); const text = approve(article('internalOwner: private-person\n')); writeFileSync(f.source, text);
-  const hello = readFileSync(new URL('../content/blog/hello-world.md', import.meta.url), 'utf8');
-  writeFileSync(join(f.project, 'src/content/blog/hello-world.md'), hello);
+  const hello = readFileSync(new URL('../content/blog/신호보다-맥락.md', import.meta.url), 'utf8');
+  writeFileSync(join(f.project, 'src/content/blog/신호보다-맥락.md'), hello);
   const result = f.run('--write');
   expect(result.status, result.stderr).toBe(0);
   expect(JSON.parse(result.stdout).mode).toBe('write');
@@ -40,7 +40,7 @@ it('writes only the approved public block, recording ownership without leaking p
   const manifest = JSON.parse(readFileSync(join(f.project, '.obsidian-export/manifest.json'), 'utf8'));
   expect(manifest.entries[f.note]).toMatchObject({ slug: '생각-기록', sourceHash: digest(text), outputHash: digest(output) });
   expect(JSON.stringify(manifest)).not.toContain(f.vault);
-  expect(readFileSync(join(f.project, 'src/content/blog/hello-world.md'), 'utf8')).toBe(hello);
+  expect(readFileSync(join(f.project, 'src/content/blog/신호보다-맥락.md'), 'utf8')).toBe(hello);
 });
 
 it.each(['missing', 'revision', 'status', 'date'])('refuses write with invalid approval: %s', reason => {

@@ -10,6 +10,7 @@ Astro 기반 개인 저널. `npm ci` 후 `npm run dev`로 로컬 미리보기, `
 - 허용 범위: vault 안의 `02-Areas/Personal Branding/Content Production/`
 - 원본 파일명: 전체 한글 제목, 예: `생각을 정리하는 긴 한글 제목.md`
 - 고정 slug: `생각-기록` → `src/content/blog/생각-기록.md` → `/blog/생각-기록/`
+- 레거시 첫 글만 예외: `신호보다-맥락.md`는 의미 있는 파일명을 쓰되 `slug: hello-world`로 기존 `/blog/hello-world/` URL을 유지합니다. 리디렉션은 필요하지 않으며 새 내보내기는 계속 `slug.md` 규칙을 따릅니다.
 - 자세한 승인·안전 규칙: [내보내기 계약](docs/obsidian-export.md)
 
 ### 1. Obsidian에서 공개 범위와 메타데이터 확정

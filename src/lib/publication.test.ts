@@ -17,6 +17,18 @@ it('uses one predicate to omit drafts and future dates while preserving publishe
   expect(isPublished(entry('invalid'), now)).toBe(false);
 });
 
+it('orders equal publication dates by ID regardless of input order or update date', async () => {
+  const { comparePublicationDate } = await import('./publication');
+  expect(comparePublicationDate).toBeTypeOf('function');
+  const entry = (id: string, date: string) => ({ id, data: { pubDate: new Date(date), updatedDate: new Date('2099-01-01') } });
+  const a = entry('a', '2020-01-02');
+  const z = entry('z', '2020-01-02');
+  const old = entry('old', '2020-01-01');
+  expect([z, old, a].sort(comparePublicationDate).map(post => post.id)).toEqual(['a', 'z', 'old']);
+  expect([a, old, z].sort(comparePublicationDate).map(post => post.id)).toEqual(['a', 'z', 'old']);
+  expect(comparePublicationDate(a, a)).toBe(0);
+});
+
 it('actual home, archive and static article build never expose drafts/future fixtures; hello-world remains', () => {
   const repo = fileURLToPath(new URL('../../', import.meta.url));
   const root = mkdtempSync(join(tmpdir(), 'publication-build-'));
@@ -46,8 +58,9 @@ it('actual home, archive and static article build never expose drafts/future fix
     for (const path of ['index.html', 'blog/index.html']) {
       const html = readFileSync(join(root, 'dist', path), 'utf8');
       expect(html).not.toContain('hidden-draft'); expect(html).not.toContain('hidden-future');
-      expect(html).toContain('/blog/hello-world/');
     }
+    expect(readFileSync(join(root, 'dist/blog/index.html'), 'utf8')).toContain('/blog/hello-world/');
+    expect(existsSync(join(root, 'dist/blog/신호보다-맥락/index.html'))).toBe(false);
     const published = readFileSync(join(root, 'dist/blog/AI-생각/index.html'), 'utf8');
     expect(published).toContain('PUBLIC-EXPORTED-BODY');
     expect(published).not.toContain('PRIVATE-OUTSIDE');
@@ -56,5 +69,49 @@ it('actual home, archive and static article build never expose drafts/future fix
     expect(existsSync(join(root, 'dist/blog/hello-world/index.html'))).toBe(true);
     expect(existsSync(join(root, 'dist/blog/hidden-draft/index.html'))).toBe(false);
     expect(existsSync(join(root, 'dist/blog/hidden-future/index.html'))).toBe(false);
+  } finally { rmSync(root, { recursive: true, force: true }); }
+}, 120000);
+
+it.each([0, 1, 2, 5])('home renders only actual recent posts (%i published), ordered by pubDate then stable ID', (count) => {
+  const repo = fileURLToPath(new URL('../../', import.meta.url));
+  const root = mkdtempSync(join(tmpdir(), 'recent-build-'));
+  try {
+    mkdirSync(join(root, 'src/pages'), { recursive: true });
+    mkdirSync(join(root, 'src/content/blog'), { recursive: true });
+    for (const name of ['components', 'layouts', 'styles', 'lib']) cpSync(join(repo, 'src', name), join(root, 'src', name), { recursive: true });
+    cpSync(join(repo, 'src/content.config.ts'), join(root, 'src/content.config.ts'));
+    cpSync(join(repo, 'src/pages/index.astro'), join(root, 'src/pages/index.astro'));
+    writeFileSync(join(root, 'package.json'), '{"type":"module"}');
+    writeFileSync(join(root, 'astro.config.mjs'), 'export default { site: "https://example.com" };');
+    symlinkSync(join(repo, 'node_modules'), join(root, 'node_modules'));
+    // Reverse filenames deliberately decouple glob insertion order from route IDs.
+    const entries = [
+      ['z-file', 'a-latest', '2020-01-03'],
+      ['a-file', 'z-tie', '2020-01-03'],
+      ['middle', 'middle', '2020-01-02'],
+      ['old-updated', 'old-updated', '2020-01-01', 'updatedDate: 2099-01-01'],
+      ['oldest', 'oldest', '2019-01-01'],
+    ];
+    for (const [file, id, date, extra = ''] of [...entries.slice(0, count), ['draft', 'hidden-draft', '2020-02-01', 'draft: true'], ['future', 'hidden-future', '2999-01-01']]) {
+      writeFileSync(join(root, `src/content/blog/${file}.md`), `---\ntitle: ${id}\nslug: ${id}\ndescription: Summary ${id}\npubDate: ${date}\n${extra}\n---\nBody ${id}\n`);
+    }
+    const build = spawnSync(process.execPath, [join(repo, 'node_modules/astro/bin/astro.mjs'), 'build', '--root', root], { cwd: root, encoding: 'utf8', env: { ...process.env, ASTRO_TELEMETRY_DISABLED: '1' }, timeout: 120000 });
+    expect(build.status, build.stdout + build.stderr).toBe(0);
+    const html = readFileSync(join(root, 'dist/index.html'), 'utf8');
+    expect(html).not.toContain('hidden-draft');
+    expect(html).not.toContain('hidden-future');
+    const articles = [...html.matchAll(/<article class="(?:featured-post|compact-post)"[\s\S]*?<\/article>/g)].map(match => match[0]);
+    expect(articles).toHaveLength(Math.min(count, 3));
+    articles.forEach((article, index) => {
+      expect(article).toContain(`href="/blog/${entries[index][1]}/"`);
+      expect(article).toContain(index === 0 ? 'class="featured-post"' : 'class="compact-post"');
+      expect(article).toContain(`datetime="${entries[index][2]}T00:00:00.000Z"`);
+      if (index > 0) expect(article).toContain(`Summary ${entries[index][1]}`);
+    });
+    if (count <= 1) expect(html).not.toContain('class="recent-posts"');
+    if (count === 0) expect(html).not.toContain('class="writing-section"');
+    else expect(html).toContain('모든 글 보기');
+    expect(html).not.toContain('/blog/old-updated/');
+    expect(html).not.toContain('/blog/oldest/');
   } finally { rmSync(root, { recursive: true, force: true }); }
 }, 120000);

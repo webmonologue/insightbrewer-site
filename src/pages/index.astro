@@ -1,10 +1,11 @@
 ---
-import { isPublished } from '../lib/publication';
+import { isPublished, comparePublicationDate } from '../lib/publication';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostPreview from '../components/PostPreview.astro';
 import { getCollection } from 'astro:content';
-const posts = (await getCollection('blog', post => isPublished(post))).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-const featured = posts.find(post => post.id === 'hello-world') || posts[0];
+const posts = (await getCollection('blog', post => isPublished(post))).sort(comparePublicationDate);
+const [featured, ...recent] = posts.slice(0, 3);
+const formatDate = (date: Date) => new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', timeZone: 'UTC' }).format(date);
 ---
 <BaseLayout title="Insight Brewer — AI, 애드테크와 사업을 생각하는 기록" description="AI와 애드테크 현장에서 사업을 만들고, 그 과정에서 배운 것을 씁니다. 기술과 시장, 사람을 연결하는 인사이트브루어의 개인 저널.">
   <section class="hero" aria-labelledby="intro-title">
@@ -28,8 +29,17 @@ const featured = posts.find(post => post.id === 'hello-world') || posts[0];
     </div>
   </section>
   {featured && <section class="writing-section" aria-labelledby="writing-title">
-    <div class="section-heading"><div><p class="eyebrow">FROM THE JOURNAL</p><h2 id="writing-title">이 글부터 읽어보세요</h2></div><a class="text-link" href="/blog">모든 글 보기 <span aria-hidden="true">↗</span></a></div>
+    <div class="section-heading"><div><p class="eyebrow">FROM THE JOURNAL</p><h2 id="writing-title">최근에 쓴 글</h2></div><a class="text-link" href="/blog">모든 글 보기 <span aria-hidden="true">↗</span></a></div>
     <PostPreview post={featured} />
+    {recent.length > 0 && <ul class="recent-posts" aria-label="이어서 읽을 최근 글">
+      {recent.map(post => <li>
+        <article class="compact-post">
+          <div class="post-meta">{post.data.tags?.length ? <span>{post.data.tags.join(' · ')}</span> : null}<time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time></div>
+          <h3><a href={`/blog/${post.id}/`}>{post.data.title}</a></h3>
+          <p>{post.data.description}</p>
+        </article>
+      </li>)}
+    </ul>}
   </section>}
   <section class="collaboration" aria-labelledby="collaboration-title">
     <div><p class="eyebrow">OPEN TO CONVERSATION</p><h2 id="collaboration-title">함께 풀어볼 질문이<br />있나요?</h2></div>
