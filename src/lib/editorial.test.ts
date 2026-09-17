@@ -33,7 +33,7 @@ describe('editorial site — rendered HTML', () => {
     const html = page();
     expect(html).toContain('AI와 애드테크 현장에서');
     expect(html).toContain('사업을 만들고,');
-    const headings = ['관심을 두는 일', '최근에 쓴 글', 'DMP 타겟팅에서 속성만큼 행동의 순서가 중요한 이유', '신호보다 맥락을 봅니다', '함께 풀어볼 질문', '대화를 이어가고 싶다면'];
+    const headings = ['관심을 두는 일', '최근에 쓴 글', '광고 데이터 파이프라인의 이해', '개발이 쉬워질수록 중요해지는 데이터 역량', 'DMP 타겟팅에서 속성만큼 행동의 순서가 중요한 이유', '함께 풀어볼 질문', '대화를 이어가고 싶다면'];
     let previous = -1;
     for (const heading of headings) {
       const index = html.indexOf(heading);
@@ -41,14 +41,16 @@ describe('editorial site — rendered HTML', () => {
       previous = index;
     }
     const featured = html.match(/<article class="featured-post">[\s\S]*?<\/article>/)?.[0];
-    expect(featured).toContain('개발이 쉬워질수록 중요해지는 데이터 역량');
-    expect(featured).toContain('여러 광고 매체의 성과를 한 화면에서 확인하고,');
-    expect(featured).toContain('href="/blog/ai-대행사-데이터-역량/"');
+    expect(featured).toContain('광고 데이터 파이프라인의 이해');
+    expect(featured).toContain('이 글은 일반적으로 광고플랫폼에서 데이터를 처리하는 과정');
+    expect(featured).toContain('href="/blog/광고-데이터-파이프라인/"');
+    expect(page('blog/광고-데이터-파이프라인')).toContain('/images/ad-data-pipeline.png');
+    expect(page('blog/광고-데이터-파이프라인')).not.toContain('편집 메모');
     expect(page('blog/ai-대행사-데이터-역량')).toContain('AI가 작업을 빠르게 해줄수록, 무엇을 근거로 판단할지 정하는 역량의 중요성은 더 커집니다.');
     expect(html.match(/class="featured-post"/g)).toHaveLength(1);
     expect(html.match(/class="compact-post"/g)).toHaveLength(2);
-    expect(html.match(/href="\/blog\/신호보다-맥락\/"/g)).toHaveLength(1);
-    expect(html).toContain('인사이트브루어가 이 블로그를 시작하는 이유.');
+    expect(page('blog')).toContain('href="/blog/신호보다-맥락/"');
+    expect(page('blog')).toContain('정보가 많다고 저절로 이해되는 건 아닙니다.');
     expect(html).toContain('모든 글 보기');
     expect(page('about')).not.toContain('일반적 접근');
     expect(page('about')).toContain('기록하는 이유');
