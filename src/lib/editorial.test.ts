@@ -40,9 +40,13 @@ describe('editorial site — rendered HTML', () => {
       expect(index).toBeGreaterThan(previous);
       previous = index;
     }
-    expect(html).toContain('신차 기사를 자주 읽는 사람과 이번 주에 자동차 견적을 비교한 사람.');
+    const featured = html.match(/<article class="featured-post">[\s\S]*?<\/article>/)?.[0];
+    expect(featured).toContain('개발이 쉬워질수록 중요해지는 데이터 역량');
+    expect(featured).toContain('여러 광고 매체의 성과를 한 화면에서 확인하고,');
+    expect(featured).toContain('href="/blog/ai-대행사-데이터-역량/"');
+    expect(page('blog/ai-대행사-데이터-역량')).toContain('AI가 작업을 빠르게 해줄수록, 무엇을 근거로 판단할지 정하는 역량의 중요성은 더 커집니다.');
     expect(html.match(/class="featured-post"/g)).toHaveLength(1);
-    expect(html.match(/class="compact-post"/g)).toHaveLength(1);
+    expect(html.match(/class="compact-post"/g)).toHaveLength(2);
     expect(html.match(/href="\/blog\/신호보다-맥락\/"/g)).toHaveLength(1);
     expect(html).toContain('인사이트브루어가 이 블로그를 시작하는 이유.');
     expect(html).toContain('모든 글 보기');
