@@ -33,7 +33,7 @@ describe('editorial site — rendered HTML', () => {
     const html = page();
     expect(html).toContain('AI와 애드테크 현장에서');
     expect(html).toContain('사업을 만들고,');
-    const headings = ['관심을 두는 일', '최근에 쓴 글', '광고 데이터 파이프라인의 이해', '개발이 쉬워질수록 중요해지는 데이터 역량', 'DMP 타겟팅에서 속성만큼 행동의 순서가 중요한 이유', '함께 풀어볼 질문', '대화를 이어가고 싶다면'];
+    const headings = ['관심을 두는 일', '최근에 쓴 글', '광고 AI 에이전트의 진화', '광고 데이터 파이프라인의 이해', '개발이 쉬워질수록 중요해지는 데이터 역량', '함께 풀어볼 질문', '대화를 이어가고 싶다면'];
     let previous = -1;
     for (const heading of headings) {
       const index = html.indexOf(heading);
@@ -41,9 +41,12 @@ describe('editorial site — rendered HTML', () => {
       previous = index;
     }
     const featured = html.match(/<article class="featured-post">[\s\S]*?<\/article>/)?.[0];
-    expect(featured).toContain('광고 데이터 파이프라인의 이해');
-    expect(featured).toContain('이 글은 일반적으로 광고플랫폼에서 데이터를 처리하는 과정');
-    expect(featured).toContain('href="/blog/광고-데이터-파이프라인/"');
+    expect(featured).toContain('광고 AI 에이전트의 진화');
+    expect(featured).toContain('최근 OpenAI가 공개한');
+    expect(featured).toContain('href="/blog/광고-ai-에이전트의-진화/"');
+    expect(page('blog/광고-ai-에이전트의-진화')).toContain('/images/ad-ai-agent-evolution.png');
+    expect(page('blog/광고-ai-에이전트의-진화')).toContain('분석부터 실행까지 하나의 흐름으로 이어지고 있습니다');
+    expect(page('blog/광고-ai-에이전트의-진화')).not.toContain('편집 메모');
     expect(page('blog/광고-데이터-파이프라인')).toContain('/images/ad-data-pipeline.png');
     expect(page('blog/광고-데이터-파이프라인')).not.toContain('편집 메모');
     expect(page('blog/ai-대행사-데이터-역량')).toContain('AI가 작업을 빠르게 해줄수록, 무엇을 근거로 판단할지 정하는 역량의 중요성은 더 커집니다.');
