@@ -33,7 +33,7 @@ describe('editorial site — rendered HTML', () => {
     const html = page();
     expect(html).toContain('AI와 애드테크 현장에서');
     expect(html).toContain('사업을 만들고,');
-    const headings = ['관심을 두는 일', '최근에 쓴 글', 'Jev로 달라질 온라인 광고 운영', '광고 AI 에이전트의 진화', '광고 데이터 파이프라인의 이해', '함께 풀어볼 질문', '대화를 이어가고 싶다면'];
+    const headings = ['관심을 두는 일', '최근에 쓴 글', '온라인 광고 운영에서 Jev 적용 아이디어', '광고 AI 에이전트의 진화', '광고 데이터 파이프라인의 이해', '함께 풀어볼 질문', '대화를 이어가고 싶다면'];
     let previous = -1;
     for (const heading of headings) {
       const index = html.indexOf(heading);
@@ -41,7 +41,7 @@ describe('editorial site — rendered HTML', () => {
       previous = index;
     }
     const featured = html.match(/<article class="featured-post">[\s\S]*?<\/article>/)?.[0];
-    expect(featured).toContain('Jev로 달라질 온라인 광고 운영');
+    expect(featured).toContain('온라인 광고 운영에서 Jev 적용 아이디어');
     expect(featured).toContain('주말 동안 Threads와 X에서');
     expect(featured).toContain('href="/blog/jev-온라인-광고-운영/"');
     expect(page('blog/jev-온라인-광고-운영')).toContain('반복되는 판단에 맞춰 AI의 작동 방식과 비용 구조를 바꾸려는 시도');
