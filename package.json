@@ -18,13 +18,16 @@
   },
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.1",
+    "@astrojs/markdown-remark": "^7.3.1",
     "@astrojs/sitemap": "^3.7.3",
-    "astro": "^7.3.2"
+    "astro": "^7.3.2",
+    "mdast-util-from-markdown": "^2.0.3",
+    "micromark-extension-cjk-friendly": "^2.0.1",
+    "remark-cjk-friendly": "^2.3.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "github-slugger": "^2.0.0",
-    "mdast-util-from-markdown": "^2.0.3",
     "typescript": "^6.0.3",
     "vitest": "^5.0.0",
     "yaml": "^2.9.1"
