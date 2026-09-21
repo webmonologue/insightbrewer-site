@@ -11,7 +11,7 @@ it('renders punctuation-adjacent Korean strong text in actual published articles
 it.each(['', 'blog'])('renders plain-text opening excerpts on /%s without Markdown link/emphasis syntax', (route) => {
   const excerpt = page(route).match(/<article class="featured-post">[\s\S]*?<div class="post-details">[\s\S]*?<p>([\s\S]*?)<\/p>/)?.[1];
   expect(excerpt).toBeDefined();
-  expect(excerpt).toContain('Sponsored Agents');
+  expect(excerpt).toContain('TypeSafe AI가 공개한 Jev입니다.');
   expect(excerpt).not.toContain('**');
   expect(excerpt).not.toMatch(/\[[^\]]+\]\(/);
 });
