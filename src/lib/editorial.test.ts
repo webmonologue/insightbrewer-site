@@ -33,7 +33,7 @@ describe('editorial site — rendered HTML', () => {
     const html = page();
     expect(html).toContain('AI와 애드테크 현장에서');
     expect(html).toContain('사업을 만들고,');
-    const headings = ['관심을 두는 일', '최근에 쓴 글', '합성 오디언스를 광고 실무에 적용하는 방법', '합성 오디언스의 등장과 광고 현장의 활용', '온라인 광고 운영에서 Jev 적용 아이디어', '함께 풀어볼 질문', '대화를 이어가고 싶다면'];
+    const headings = ['관심을 두는 일', '최근에 쓴 글', '광고 실무에서 생각해 볼 합성 오디언스 활용 아이디어', '합성 오디언스의 등장과 광고 현장의 활용', '온라인 광고 운영에서 Jev 적용 아이디어', '함께 풀어볼 질문', '대화를 이어가고 싶다면'];
     let previous = -1;
     for (const heading of headings) {
       const index = html.indexOf(heading);
@@ -41,8 +41,8 @@ describe('editorial site — rendered HTML', () => {
       previous = index;
     }
     const featured = html.match(/<article class="featured-post">[\s\S]*?<\/article>/)?.[0];
-    expect(featured).toContain('합성 오디언스를 광고 실무에 적용하는 방법');
-    expect(featured).toContain('작은 질문부터 시작하는 편이 좋습니다.');
+    expect(featured).toContain('광고 실무에서 생각해 볼 합성 오디언스 활용 아이디어');
+    expect(featured).toContain('아직 합성 오디언스를 활용해 직접 캠페인을 집행해 본 것은 아닙니다.');
     expect(featured).toContain('href="/blog/합성-오디언스-광고-실무/"');
     expect(page('blog/합성-오디언스-개념과-사례')).toContain('Dentsu와 Evidenza');
     expect(page('blog/합성-오디언스-개념과-사례')).toContain('MilkPEP과 Radius Insights');
