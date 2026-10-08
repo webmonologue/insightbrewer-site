@@ -13,11 +13,11 @@ it('serves the old URL as an HTTP 301 with an encoded direct destination', async
 
 it('uses the reachable origin consistently and lists only the migrated article URL', () => {
   const read = (path: string) => readFileSync(new URL(`../../dist/client/${path}`, import.meta.url), 'utf8');
-  const origin = 'https://insightbrewer.webmonologue.workers.dev';
+  const origin = 'https://insightbrewer.com';
   expect(read('index.html')).toContain(`href="${origin}/"`);
   const sitemap = read('sitemap-0.xml');
   expect(decodeURI(sitemap)).toContain(`${origin}/blog/신호보다-맥락/`);
   expect(sitemap).not.toContain('hello-world');
-  expect(sitemap).not.toContain('insightbrewer.com');
+  expect(sitemap).not.toContain('workers.dev');
   expect(read('robots.txt')).toContain(`${origin}/sitemap-index.xml`);
 });

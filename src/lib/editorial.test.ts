@@ -12,7 +12,7 @@ describe('editorial site — rendered HTML', () => {
     expect(existsSync(new URL('../content/blog/hello-world.md', import.meta.url))).toBe(false);
     expect(readFileSync(source, 'utf8')).toContain('\nslug: 신호보다-맥락\n');
     expect(page('blog/신호보다-맥락')).toContain('정보가 많다고 저절로 이해되는 건 아닙니다.');
-    expect(page('blog/신호보다-맥락')).toContain('href="https://insightbrewer.webmonologue.workers.dev/blog/%EC%8B%A0%ED%98%B8%EB%B3%B4%EB%8B%A4-%EB%A7%A5%EB%9D%BD/"');
+    expect(page('blog/신호보다-맥락')).toContain('href="https://insightbrewer.com/blog/%EC%8B%A0%ED%98%B8%EB%B3%B4%EB%8B%A4-%EB%A7%A5%EB%9D%BD/"');
     expect(existsSync(new URL('../../dist/client/blog/hello-world/index.html', import.meta.url))).toBe(false);
   });
   it('keeps the contact contract and provides labeled autofill fields, guidance, and live feedback', () => {

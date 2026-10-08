@@ -4,7 +4,7 @@ Astro 기반 개인 저널. `npm ci` 후 `npm run dev`로 로컬 미리보기, `
 
 ## 공개 URL 정책
 
-- 현재 공식 origin은 `https://insightbrewer.webmonologue.workers.dev`입니다. 구입 전인 `insightbrewer.com`을 canonical로 사용하지 않습니다.
+- 현재 공식 origin은 `https://insightbrewer.com`입니다. 도메인 연결 전 임시로 쓰던 `insightbrewer.webmonologue.workers.dev`는 canonical로 사용하지 않습니다.
 - 신규 글 URL은 `/blog/{slug}/`: 주제를 설명하는 짧은 한글과 소문자 영문 약어, 단어 구분은 하이픈. 날짜·카테고리는 기본적으로 넣지 않습니다.
 - 노트 파일명은 제목, 배포 파일명은 `{slug}.md`; 제목 수정만으로 발행된 URL을 변경하지 않습니다.
 - 주소 변경은 별도 승인된 이전 작업입니다. 기존 주소의 HTTP 301, 내부 링크·canonical·og:url·사이트맵 일치를 함께 검증합니다.

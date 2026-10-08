@@ -8,7 +8,7 @@ import remarkCjkFriendly from 'remark-cjk-friendly/parseOnly';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://insightbrewer.webmonologue.workers.dev',
+  site: 'https://insightbrewer.com',
   integrations: [sitemap()],
   adapter: cloudflare(),
   // Sätteri does not run micromark syntax extensions. Parse CJK emphasis
