@@ -39,7 +39,7 @@ export const POST: APIRoute = async ({ request }) => {
     },
     body: JSON.stringify({
       from: 'Insight Brewer 문의 <contact@insightbrewer.com>',
-      to: ['contact@insightbrewer.com'],
+      to: ['vincent@insightbrewer.com'],
       reply_to: email,
       subject: `[문의] ${name}님으로부터`,
       text: `이름: ${name}\n이메일: ${email}\n\n${message}`,
