@@ -33,7 +33,7 @@ describe('editorial site — rendered HTML', () => {
     const html = page();
     expect(html).toContain('AI와 애드테크 현장에서');
     expect(html).toContain('사업을 만들고,');
-    const headings = ['관심을 두는 일', '최근에 쓴 글', '광고 실무에서 생각해 볼 합성 오디언스 활용 아이디어', '합성 오디언스의 등장과 광고 현장의 활용', '온라인 광고 운영에서 Jev 적용 아이디어', '함께 풀어볼 질문', '대화를 이어가고 싶다면'];
+    const headings = ['관심을 두는 일', '최근에 쓴 글', '광고와 대화하는 쇼핑: OpenAI Sponsored Agents가 바꿀 수 있는 구매 과정', '광고 실무에서 생각해 볼 합성 오디언스 활용 아이디어', '합성 오디언스의 등장과 광고 현장의 활용', '함께 풀어볼 질문', '대화를 이어가고 싶다면'];
     let previous = -1;
     for (const heading of headings) {
       const index = html.indexOf(heading);
@@ -41,9 +41,13 @@ describe('editorial site — rendered HTML', () => {
       previous = index;
     }
     const featured = html.match(/<article class="featured-post">[\s\S]*?<\/article>/)?.[0];
-    expect(featured).toContain('광고 실무에서 생각해 볼 합성 오디언스 활용 아이디어');
-    expect(featured).toContain('아직 합성 오디언스를 활용해 직접 캠페인을 집행해 본 것은 아닙니다.');
-    expect(featured).toContain('href="/blog/합성-오디언스-광고-실무/"');
+    expect(featured).toContain('광고와 대화하는 쇼핑: OpenAI Sponsored Agents가 바꿀 수 있는 구매 과정');
+    expect(featured).toContain('2026년 9월 16일 발표 당시 미국의 일부 광고주를 대상으로 테스트 중인 광고 방식입니다.');
+    expect(featured).toContain('href="/blog/openai-sponsored-agents-구매-행동/"');
+    const sponsored = page('blog/openai-sponsored-agents-구매-행동');
+    expect(sponsored).toContain('구매 이후까지 살펴봐야 합니다.</strong>');
+    expect(sponsored).toContain('https://openai.com/index/reimagining-advertising-with-ai');
+    expect(sponsored).not.toContain('approvalHash');
     expect(page('blog/합성-오디언스-개념과-사례')).toContain('Dentsu와 Evidenza');
     expect(page('blog/합성-오디언스-개념과-사례')).toContain('MilkPEP과 Radius Insights');
     expect(page('blog/합성-오디언스-개념과-사례')).not.toContain('편집 메모');
