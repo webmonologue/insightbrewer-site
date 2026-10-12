@@ -33,7 +33,7 @@ describe('editorial site — rendered HTML', () => {
     const html = page();
     expect(html).toContain('AI와 애드테크 현장에서');
     expect(html).toContain('사업을 만들고,');
-    const headings = ['관심을 두는 일', '최근에 쓴 글', '광고와 대화하는 쇼핑: OpenAI Sponsored Agents가 바꿀 수 있는 구매 과정', '광고 실무에서 생각해 볼 합성 오디언스 활용 아이디어', '합성 오디언스의 등장과 광고 현장의 활용', '함께 풀어볼 질문', '대화를 이어가고 싶다면'];
+    const headings = ['관심을 두는 일', '최근에 쓴 글', 'OpenAI Ads Conversions API 정리: 개념부터 기존 전환 측정과의 차이, 연동 구조까지', '광고와 대화하는 쇼핑: OpenAI Sponsored Agents가 바꿀 수 있는 구매 과정', '광고 실무에서 생각해 볼 합성 오디언스 활용 아이디어', '함께 풀어볼 질문', '대화를 이어가고 싶다면'];
     let previous = -1;
     for (const heading of headings) {
       const index = html.indexOf(heading);
@@ -41,9 +41,14 @@ describe('editorial site — rendered HTML', () => {
       previous = index;
     }
     const featured = html.match(/<article class="featured-post">[\s\S]*?<\/article>/)?.[0];
-    expect(featured).toContain('광고와 대화하는 쇼핑: OpenAI Sponsored Agents가 바꿀 수 있는 구매 과정');
-    expect(featured).toContain('2026년 9월 16일 발표 당시 미국의 일부 광고주를 대상으로 테스트 중인 광고 방식입니다.');
-    expect(featured).toContain('href="/blog/openai-sponsored-agents-구매-행동/"');
+    expect(featured).toContain('OpenAI Ads Conversions API 정리: 개념부터 기존 전환 측정과의 차이, 연동 구조까지');
+    expect(featured).toContain('ChatGPT 광고를 집행하는 광고주도 클릭 이후의 결과를 확인해야 합니다.');
+    expect(featured).toContain('href="/blog/openai-ads-전환-api/"');
+    const capi = page('blog/openai-ads-전환-api');
+    expect(capi).toContain('최적화 목표는 전환이지만 과금 기준은 유효 클릭</strong>');
+    expect(capi).toContain('https://developers.openai.com/ads/conversions-api');
+    expect(capi).not.toContain('approvalHash');
+    expect(capi).not.toContain('편집 메모');
     const sponsored = page('blog/openai-sponsored-agents-구매-행동');
     expect(sponsored).toContain('구매 이후까지 살펴봐야 합니다.</strong>');
     expect(sponsored).toContain('https://openai.com/index/reimagining-advertising-with-ai');
