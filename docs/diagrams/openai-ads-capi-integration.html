@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>OpenAI Ads 전환 연동 구조</title>
+<style>body{margin:0;background:#f5f2ea}svg{display:block;width:560px;max-width:100%;height:auto;margin:auto}text{font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;fill:#252b26}.heading{font-size:28px;font-weight:600}.label{font-size:28px;font-weight:600}.sub{font-size:24px;fill:#62665e}.section{font-size:24px;font-weight:600;fill:#526047}</style></head>
+<body>
+<!-- Architecture / fit portrait for mobile doc-inline use. 6 nodes, 4 arrows.
+Brand: insightbrewer.com, paper #f5f2ea, ink #252b26, accent #526047,
+muted #62665e, surface #ebe7dc, rule #cccfc2. Font fallback: Apple SD Gothic Neo;
+site's custom-hosted Pretendard is not bundled. No external dependencies. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 1160" role="img" aria-labelledby="openai-ads-capi-integration-title openai-ads-capi-integration-desc">
+<title id="openai-ads-capi-integration-title">OpenAI Ads 전환 연동 구조</title>
+<desc id="openai-ads-capi-integration-desc">광고주의 주문·회원·CRM 이벤트를 변환하고 클릭 식별자를 연결해 서버에서 Conversions API로 데이터 소스에 전송합니다. 별도로 Ads Manager 또는 Ads API에서 데이터 소스와 이벤트를 전환 설정에 연결하고 캠페인에 적용합니다.</desc>
+<defs>
+<marker id="arrow" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#62665e"/></marker>
+<marker id="arrow-accent" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#526047"/></marker>
+<marker id="arrow-link" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#526047"/></marker>
+</defs>
+<rect width="560" height="1160" fill="#f5f2ea"/>
+<text x="40" y="56" class="heading">OpenAI Ads 전환 연동</text>
+<text x="40" y="96" class="sub">이벤트 전송과 광고 설정은 별도 경로</text>
+<text x="40" y="152" class="section">A. 이벤트 전송 · 광고주 서버 → OpenAI</text>
+<!-- Draw connectors before nodes; solid=data, dashed=configuration. -->
+<g fill="none" stroke="#62665e" stroke-width="2" marker-end="url(#arrow)">
+<path d="M280 272 V312"/><path d="M280 408 V448"/>
+</g>
+<path d="M280 544 V584" fill="none" stroke="#526047" stroke-width="2" marker-end="url(#arrow-link)"/>
+<path d="M280 900 V940" fill="none" stroke="#62665e" stroke-width="2" stroke-dasharray="8 4" marker-end="url(#arrow)"/>
+<rect x="40" y="176" width="480" height="96" rx="8" fill="#ebe7dc" stroke="#cccfc2"/>
+<text x="64" y="216" class="label">주문 · 회원 · CRM</text>
+<text x="64" y="248" class="sub">구매·가입 등 확인된 행동</text>
+<rect x="40" y="312" width="480" height="96" rx="8" fill="#fffdf7" stroke="#cccfc2"/>
+<text x="64" y="352" class="label">이벤트 변환 + 클릭 식별자 연결</text>
+<text x="64" y="384" class="sub">OpenAI 규격으로 변환 · oppref 전달</text>
+<rect x="40" y="448" width="480" height="96" rx="8" fill="#ebe7dc" stroke="#526047" stroke-width="2"/>
+<text x="64" y="488" class="label">서버 → Conversions API</text>
+<text x="64" y="520" class="sub">전송용 API 키는 서버에만 보관</text>
+<rect x="40" y="584" width="480" height="96" rx="8" fill="#fffdf7" stroke="#cccfc2"/>
+<text x="64" y="624" class="label">OpenAI 데이터 소스</text>
+<text x="64" y="656" class="sub">Pixel ID로 전송 대상 지정</text>
+<line x1="40" y1="720" x2="520" y2="720" stroke="#cccfc2"/>
+<text x="40" y="760" class="section">B. 별도 설정 · Ads Manager / Ads API</text>
+<rect x="40" y="804" width="480" height="96" rx="8" fill="#fffdf7" stroke="#cccfc2"/>
+<text x="64" y="844" class="label">전환 설정</text>
+<text x="64" y="876" class="sub">위 데이터 소스 + 측정할 이벤트 연결</text>
+<rect x="40" y="940" width="480" height="96" rx="8" fill="#fffdf7" stroke="#cccfc2"/>
+<text x="64" y="980" class="label">캠페인</text>
+<text x="64" y="1012" class="sub">사용할 전환 설정 연결</text>
+<line x1="40" y1="1080" x2="520" y2="1080" stroke="#cccfc2"/>
+<line x1="40" y1="1120" x2="80" y2="1120" stroke="#62665e" stroke-width="2"/>
+<text x="92" y="1128" class="sub">이벤트 전송</text>
+<line x1="300" y1="1120" x2="340" y2="1120" stroke="#62665e" stroke-width="2" stroke-dasharray="8 4"/>
+<text x="352" y="1128" class="sub">설정 연결</text>
+</svg></body></html>

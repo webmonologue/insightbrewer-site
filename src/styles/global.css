@@ -115,6 +115,23 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .prose p + p { margin-top: 1.5em; }
 .prose h2, .prose h3 { margin: 1.7em 0 .8em; }
 .prose img { max-width: 100%; height: auto; }
+/* Article-only tables: keep native semantics; contain wide reference data. */
+.prose .table-scroll-hint { display: none; }
+.prose .table-scroll { max-width: 100%; overflow-x: auto; margin: 1.5em 0; border: 1px solid var(--color-border); border-radius: 6px; scrollbar-color: var(--color-accent) var(--color-bg-subtle); }
+.prose .table-scroll:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+.prose table { width: 100%; min-width: 36rem; border-collapse: collapse; font-size: .94rem; line-height: 1.75; }
+.prose th, .prose td { padding: 14px 18px; text-align: left; vertical-align: top; word-break: keep-all; overflow-wrap: anywhere; }
+.prose th { background: var(--color-bg-subtle); color: var(--color-accent); font-weight: 650; border-bottom: 2px solid var(--color-border); }
+.prose td { border-top: 1px solid var(--color-border); }
+.prose th + th, .prose td + td { border-left: 1px solid var(--color-border); }
+.prose tbody tr:nth-child(even) { background: color-mix(in srgb, var(--color-bg-subtle) 35%, var(--color-bg)); }
+.prose td:first-child { font-weight: 550; }
+.prose table code { font-size: .9em; white-space: normal; overflow-wrap: anywhere; }
+.prose img[src$="openai-ads-capi-integration.png"] { display: block; width: 100%; max-width: 560px; margin: 1.5em auto; }
+@media (max-width: 600px) {
+  .prose th, .prose td { padding: 12px 14px; }
+  .prose .table-scroll-hint { display: block; margin: -1em 0 1.5em; color: var(--color-fg-muted); font-size: .8rem; }
+}
 .prose pre { overflow-x: auto; padding: 20px; background: var(--color-bg-subtle); }
 .prose blockquote { margin: 24px 0; padding: 24px; background: var(--color-bg-subtle); }
 .reading-footer { border-top: 1px solid var(--color-border); padding-top: 28px; display: flex; justify-content: space-between; gap: 28px; }

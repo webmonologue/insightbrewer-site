@@ -5,6 +5,7 @@ import sitemap from '@astrojs/sitemap';
 import cloudflare from '@astrojs/cloudflare';
 import { unified } from '@astrojs/markdown-remark';
 import remarkCjkFriendly from 'remark-cjk-friendly/parseOnly';
+import rehypeArticleTables from './src/lib/rehype-article-tables.mjs';
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,5 +14,5 @@ export default defineConfig({
   adapter: cloudflare(),
   // Sätteri does not run micromark syntax extensions. Parse CJK emphasis
   // before building the AST, without rewriting approved prose or HTML.
-  markdown: { processor: unified({ remarkPlugins: [remarkCjkFriendly] }) },
+  markdown: { processor: unified({ remarkPlugins: [remarkCjkFriendly], rehypePlugins: [rehypeArticleTables] }) },
 });
