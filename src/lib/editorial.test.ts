@@ -33,7 +33,7 @@ describe('editorial site — rendered HTML', () => {
     const html = page();
     expect(html).toContain('AI와 애드테크 현장에서');
     expect(html).toContain('사업을 만들고,');
-    const headings = ['관심을 두는 일', '최근에 쓴 글', 'OpenAI Ads Conversions API 정리: 개념부터 기존 전환 측정과의 차이, 연동 구조까지', '광고와 대화하는 쇼핑: OpenAI Sponsored Agents가 바꿀 수 있는 구매 과정', '광고 실무에서 생각해 볼 합성 오디언스 활용 아이디어', '함께 풀어볼 질문', '대화를 이어가고 싶다면'];
+    const headings = ['관심을 두는 일', '최근에 쓴 글', 'AI가 상품을 고르는 시대, 이커머스는 무엇을 열어야 할까', 'OpenAI Ads Conversions API 정리: 개념부터 기존 전환 측정과의 차이, 연동 구조까지', '광고와 대화하는 쇼핑: OpenAI Sponsored Agents가 바꿀 수 있는 구매 과정', '함께 풀어볼 질문', '대화를 이어가고 싶다면'];
     let previous = -1;
     for (const heading of headings) {
       const index = html.indexOf(heading);
@@ -41,9 +41,9 @@ describe('editorial site — rendered HTML', () => {
       previous = index;
     }
     const featured = html.match(/<article class="featured-post">[\s\S]*?<\/article>/)?.[0];
-    expect(featured).toContain('OpenAI Ads Conversions API 정리: 개념부터 기존 전환 측정과의 차이, 연동 구조까지');
-    expect(featured).toContain('ChatGPT 광고를 집행하는 광고주도 클릭 이후의 결과를 확인해야 합니다.');
-    expect(featured).toContain('href="/blog/openai-ads-전환-api/"');
+    expect(featured).toContain('AI가 상품을 고르는 시대, 이커머스는 무엇을 열어야 할까');
+    expect(featured).toContain('이커머스 사업자는 AI가 자사 상품 정보를 읽도록 허용해야 할까요.');
+    expect(featured).toContain('href="/blog/ai-크롤러-mcp-이커머스/"');
     const capi = page('blog/openai-ads-전환-api');
     expect(capi).toContain('최적화 목표는 전환이지만 과금 기준은 유효 클릭</strong>');
     expect(capi).toContain('https://developers.openai.com/ads/conversions-api');
