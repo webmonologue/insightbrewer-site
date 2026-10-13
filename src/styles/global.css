@@ -127,7 +127,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .prose tbody tr:nth-child(even) { background: color-mix(in srgb, var(--color-bg-subtle) 35%, var(--color-bg)); }
 .prose td:first-child { font-weight: 550; }
 .prose table code { font-size: .9em; white-space: normal; overflow-wrap: anywhere; }
-.prose img[src$="openai-ads-capi-integration.png"] { display: block; width: 100%; max-width: 560px; margin: 1.5em auto; }
+.prose img[src$="openai-ads-capi-integration.png"] { display: block; width: 100%; max-width: 100%; margin: 1.5em auto; }
 @media (max-width: 600px) {
   .prose th, .prose td { padding: 12px 14px; }
   .prose .table-scroll-hint { display: block; margin: -1em 0 1.5em; color: var(--color-fg-muted); font-size: .8rem; }

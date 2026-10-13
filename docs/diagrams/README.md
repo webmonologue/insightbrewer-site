@@ -1,38 +1,36 @@
-# OpenAI Ads 전환 연동 구조 — 로컬 검토본
+# PC 본문용 이미지
 
-- 편집 원본: `openai-ads-capi-integration.html` (CSS + inline SVG, 외부 의존성 없음)
-- 벡터: `openai-ads-capi-integration.svg`
-- 래스터: `openai-ads-capi-integration.png` (1120 × 2320, 2× 브라우저 렌더)
-- 공개용 준비 파일: `../../public/images/openai-ads-capi-integration.png`
-- 구조: Architecture, 6 nodes / 4 connectors. 이벤트 전송과 Ads Manager / Ads API 설정을 별도 영역으로 구분.
-- 크기: 모바일 본문 가독성을 위해 가로형 doc-inline 대신 `fit` 세로형 560 × 1160. 필드 명세, 선택 픽셀, 수신과 기여도 차이는 인접 본문에 유지.
+사용자 요청에 따라 게시된 CAPI 구조도와 Jev 비교 이미지를 가로형으로 교체했다. 제목·slug·본문·표 디자인은 유지하고 그림 크게 보기 링크와 updatedDate만 추가/갱신했다.
 
-## 브랜드 적용 기록
+| 파일 stem | 편집 프레임 | PNG (2×) | PC 760px 본문 표시 |
+| --- | --- | --- | --- |
+| `openai-ads-capi-integration` | 960 × 600 | 1920 × 1200 | 760 × 475 |
+| `jev-llm-comparison` | 960 × 640 | 1920 × 1280 | 760 × 약 507 |
 
-실제 참고 페이지: https://insightbrewer.com/blog/openai-ads-%EC%A0%84%ED%99%98-api/
+각 이미지의 `.html`은 CSS + inline SVG 편집 원본, `.svg`는 독립 벡터, `.png`는 Chrome 브라우저 렌더다. 공개 PNG는 `../../public/images/`에, Obsidian 첨부파일은 볼트 `Assets/diagrams/`에 동기화한다.
 
-사이트 `src/styles/tokens.css`와 실제 렌더링에서 확인한 색상:
+## 구성과 정보 보존
 
-| 역할 | 값 |
-| --- | --- |
-| 배경 | `#f5f2ea` |
-| 본문 | `#252b26` |
-| 보조문구 | `#62665e` |
-| 강조 | `#526047` |
-| 헤더/표면 | `#ebe7dc` |
-| 테두리 | `#cccfc2` |
+- CAPI: Architecture/doc-wide, 6 nodes / 4 connectors. 위쪽 왼쪽→오른쪽은 광고주 시스템 → 이벤트 변환 + oppref 연결 → Conversions API → OpenAI 데이터 소스. 아래쪽 Ads Manager / Ads API 설정은 전환 정의 → 캠페인 연결. 설정 경로가 이벤트 처리의 순차 단계처럼 이어지지 않는다. 정렬된 포트의 직선 연결이며 교차·중첩·대각선이 없다.
+- Jev: 비교표 형식을 유지한다. 결과 형태·처리 방식·광고 활용·속도와 비용의 모든 기존 내용, LLM 구조화 출력 가능성, 업무별 검증 필요 문구, 출처 표시를 그대로 보존하고 줄바꿈과 열 배치만 변경했다.
+- 모바일은 가로 넘침 없이 축소하고 두 글 모두 ‘그림 크게 보기’ 링크로 원본 PNG를 연다.
 
-사이트 본문은 자체 호스팅 Pretendard Variable. 독립 편집 HTML/SVG에는 해당 폰트를 재배포하지 않고 Apple SD Gothic Neo를 명시적 대체 글꼴로 사용했다. Chrome CSS.getPlatformFontsForNode에서 AppleSDGothicNeo-SemiBold 실제 사용을 확인했다. PNG는 렌더링된 글꼴을 그대로 유지한다. SVG는 Apple 글꼴이 없는 환경에서 대체 글꼴을 사용할 수 있다.
+## 기존 브랜드 유지
 
-## 확인 결과
+사이트 토큰과 이전 승인본의 `paper #f5f2ea`, `ink #252b26`, `muted #62665e`, `accent #526047`, `surface #ebe7dc`, `rule #cccfc2`를 재사용했다. 프로젝트 `.diagram-design` marker와 InsightBrewer named profile은 없으므로 다른 브랜드 profile이나 공유 skill 설정은 변경하지 않았다.
 
-- diagram-design self_check.py 통과. SVG XML 파싱 통과.
-- 모든 SVG 텍스트가 안전 영역 안에 있는지 브라우저 getBBox 검사 통과.
-- 원본 / public / Obsidian PNG 바이트 해시 일치.
-- 본 프로젝트 및 수정 원고를 넣은 별도 Astro 미리보기 모두 `npm run verify` 통과: 8 files / 85 tests, Astro 오류·경고·힌트 0.
-- 브라우저 검사: 대상 글 1280 / 390 / 320px, 전체 15개 정적 경로 1280 / 390px. 총 33개 경로·화면폭 검사 통과. 가로 페이지 넘침 없음. 4개 표 키보드 가로 스크롤, 모바일 안내 문구, 그림 로딩 확인.
-- 서버 없는 단일 HTML 미리보기도 1280 / 390px에서 오프라인 검증.
+사이트 자체 호스팅 Pretendard Variable을 편집 파일에 재배포하지 않고 기존과 동일한 Apple SD Gothic Neo 대체 글꼴을 사용한다. PNG는 렌더링된 글꼴을 유지하며 SVG는 실행 환경에 따라 폰트가 대체될 수 있다.
 
-## 배포 경계
+## 검증
 
-위 검토는 승인 전 로컬 미리보기에서 수행했다. 이후 사용자가 표 디자인과 구조도 검토본을 확인하고 배포를 명시 승인했다. 승인된 디자인은 변경하지 않고 원고의 이미지 경로만 `/images/openai-ads-capi-integration.png`로 변환한 뒤, `status: approved`와 현재 원본 전체의 승인 해시를 사용해 정규 exporter dry-run 및 `--write`를 수행했다. 내보낸 사본은 `npm run verify` 8 files / 85 tests를 통과했다. 발행 확인 후 Obsidian 원본은 볼트 상대 이미지 경로와 `published` 상태로 복원하고 오래된 승인 해시는 제거한다. 내보내기 원본·출력 해시는 비공개 manifest에 유지한다.
+- 두 HTML 모두 diagram-design `self_check.py` 통과. 브라우저 getBBox로 텍스트 프레임 내부 배치 확인.
+- 로컬 실제 본문 1280px / 390px에서 두 글 4개 화면 캡처 및 시각 검사. 이미지 겹침·잘림·페이지 가로 넘침 없음.
+- PNG의 원본·공개용·Obsidian 사본 바이트 일치.
+- `npm run verify`: Astro 28 files 오류·경고·힌트 0, 8개 테스트 파일 / 87개 테스트 통과. 기존 표 회귀 테스트 유지, 두 가로 이미지 해상도와 확대 링크 회귀 추가.
+- PNG SHA-256: CAPI `a8a007cf59c02cc35149407e2ed4c4d130fc5b1b8cdced82ecdac9c0bbe3522e`, Jev `09d74d12923fae4d5df6199266ef04bf0dcedcd72cc5fc36defd2bac6b5b3e5c`.
+
+## 발행 계약
+
+사용자의 이미지 재작성·공개 업데이트 요청으로 승인된 범위다. Obsidian 원본의 이미지 경로를 공개 root URL로 잠시 변환하고 전체 원본 approvalHash를 정규 exporter dry-run / --write에 바인딩했다. 발행 확인 후 원본의 vault-relative 이미지 경로와 published 상태를 복원하고 무효화된 approvalHash는 제거한다. 실제 내보내기 sourceHash/outputHash는 비공개 manifest에 보존한다.
+
+Jev의 기존 manifest outputHash는 도메인 이전 전 `62dd9cf` 출력과 일치했다. `cd95339`에서 이미지 URL만 root-relative로 바뀐 것을 git diff와 원본·출력 해시로 확인한 뒤, 현 출력의 소유권 hash를 수동 대조·복구하고 정규 exporter를 실행했다. manifest를 삭제하거나 다른 글의 기록을 변경하지 않았다.
