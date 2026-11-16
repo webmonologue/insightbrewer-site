@@ -11,7 +11,7 @@ it('renders punctuation-adjacent Korean strong text in actual published articles
 it.each(['', 'blog'])('renders plain-text opening excerpts on /%s without Markdown link/emphasis syntax', (route) => {
   const excerpt = page(route).match(/<article class="featured-post">[\s\S]*?<div class="post-details">[\s\S]*?<p>([\s\S]*?)<\/p>/)?.[1];
   expect(excerpt).toBeDefined();
-  expect(excerpt).toContain('이커머스 사업자는 AI가 자사 상품 정보를 읽도록 허용해야 할까요.');
+  expect(excerpt).toContain('ChatGPT에서 기업이 고객을 만나는 방식이 넓어지고 있습니다.');
   expect(excerpt).not.toContain('**');
   expect(excerpt).not.toMatch(/\[[^\]]+\]\(/);
 });
