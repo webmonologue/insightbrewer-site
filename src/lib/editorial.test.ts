@@ -42,7 +42,7 @@ describe('editorial site — rendered HTML', () => {
     }
     const featured = html.match(/<article class="featured-post">[\s\S]*?<\/article>/)?.[0];
     expect(featured).toContain('AI 비서는 어디에서, 어떤 권한으로 일할까');
-    expect(featured).toContain('AI 비서에 관한 제품 소개를 보면 비슷한 장면이 등장합니다.');
+    expect(featured).toContain('AI 비서는 메일을 읽고 일정을 정리하며, 대화가 끝난 뒤에도 작업을 이어가는 방향으로 발전하고 있습니다.');
     expect(featured).toContain('href="/blog/ai-비서-비교-구조-보안/"');
     const assistants = page('blog/ai-비서-비교-구조-보안');
     for (const product of ['Dots', '피클', 'Meta Muse', 'Claude Duet', 'Gemini Task', 'Grok Bot', 'OpenClaw', 'Hermes Agent']) {
